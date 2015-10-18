@@ -5,20 +5,25 @@
     <title> Menu </title>
 </head>
 <body>
-<p> 本餐廳共有 {{ foods|length }} 道菜 </p>
-    {% for food in foods %}
-        <h3>第 {{ forloop.counter }} 道食物</h3>
-        <ul>
-            <li> 食物的名字是: {{food.name}} </li>
-            <li> 食物的價格是: {{food.price}} </li>
-            <li> 食物說明: {{food.comment}} </li>
-            <li> 食物會辣:
-                {% if food.is_spicy %} 辣
-                {% else %} 不辣
-                {% endif %}</li>
-        </ul>
-    {% empty %}
+<!--<p> 您現在的位置在 {{ path }} </p>-->
+    <h2> {{ restaurant.name }} 的Menu </h2>
+    {% if restaurant.food_set.all %}
+        <p>本餐廳共有 {{ restaurant.food_set.all|length }} 道菜 </p>
+        <table>
+            {% for food in restaurant.food_set.all %}
+                <h3>第 {{ forloop.counter }} 道食物</h3>
+                <ul>
+                    <li> 食物的名字是: {{food.name}} </li>
+                    <li> 食物的價格是: {{food.price}} </li>
+                    <li> 食物說明: {{food.comment}} </li>
+                    <li> 食物會辣:
+                        {% if food.is_spicy %} 辣
+                        {% else %} 不辣
+                        {% endif %}</li>
+                </ul>
+            {% endfor %}
+    {% else %}
         <p>本餐廳啥都沒賣!</p>
-    {% endfor %}
+    {% endif %}
 </body>
 </html>

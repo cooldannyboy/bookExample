@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Menu </title>
+
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<!--<p> 您現在的位置在 {{ path }} </p>-->
+    <h2> {{ restaurant.name }}的Menu </h2>
+    {% if restaurant.food_set.all %}
+        <p>本餐廳共有 {{ restaurant.food_set.all|length }} 道菜 </p>
+        <table>
+        <tr>
+            <tr>
+                <th>菜名</th>
+                <th>價格</th>
+                <th>註解</th>
+                <th>辣不辣</th>
+            </tr>
+
+            {% for food in restaurant.food_set.all %}
+                <tr>
+                    <td> 食物的名字是: {{food.name}} </td>
+                    <td> 食物的價格是: {{food.price}} </td>
+                    <td> 食物說明: {{food.comment}} </td>
+                    <td> 食物會辣:
+                        {% if food.is_spicy %} 辣
+                        {% else %} 不辣
+                        {% endif %}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>本餐廳啥都沒賣!</p>
+    {% endif %}
+</body>
+</html>
