@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render_to_response
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from restaurants.models import Restaurant
 
 def menu(request):
@@ -11,9 +11,15 @@ def menu(request):
     # foods = [food1, food2]
     #
     # return render_to_response('menu.html', locals())
-    restaurant = Restaurant.objects.get(id=1)
-    return render_to_response('menu2.html', locals())
+    # = Restaurant.objects.get(id=1)
+    #restaurants = Restaurant.objects.all()
 
+
+    if 'id' in request.GET and request.GET['id'] != '':
+        restaurant = Restaurant.objects.get(id=request.GET['id'])
+        return render_to_response('menu.html', locals())
+    else:
+        return HttpResponseRedirect("/restaurants_list/")
 
 def meta(request):
     values = request.META.items()
