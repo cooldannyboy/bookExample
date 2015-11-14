@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from restaurants.views import menu, meta, restaurants_list
+from restaurants.views import menu, meta, restaurants_list, comment
 from bookExample.views import welcome
 
 admin.autodiscover()
@@ -16,5 +16,6 @@ urlpatterns = patterns('',
     url(r'^meta/', meta),
     url(r'^welcome/$', welcome),
     url(r'^restaurants_list/$', restaurants_list),
+    url(r'^comment/(\d{1,5})/$', comment),
 
 )

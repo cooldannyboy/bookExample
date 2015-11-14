@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
-from restaurants.models import Restaurant
+from restaurants.models import Restaurant, Comment
+from django.utils import timezone
+from django.template import RequestContext
 
 def menu(request):
     # path = request.path
@@ -39,3 +41,22 @@ def meta(request):
 def restaurants_list(request):
     restaurants = Restaurant.objects.all()
     return render_to_response('restaurants_list.html', locals())
+
+def comment(request, id):
+    if id:
+        r = Restaurant.objects.get(id=id)
+    else:
+        return HttpResponseRedirect("/restaurant_list/")
+    if request.POST:
+        visitor = request.POST['visitor']
+        content = request.POST['content']
+        email = request.POST['email']
+        date_time = timezone.localtime(timezone.now())
+        Comment.objects.create(
+            visitor=visitor,
+            email=email,
+            content=content,
+            date_time=date_time,
+            restaurant=r
+        )
+    return render_to_response('comments.html', RequestContext(request, locals()))
