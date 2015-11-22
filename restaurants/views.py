@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from restaurants.models import Restaurant, Comment
 from django.utils import timezone
+import datetime
 from django.template import RequestContext
 from restaurants.forms import CommentForm
 
@@ -51,16 +52,13 @@ def comment(request, id):
 
     errors = []
     if request.POST:
-        visitor = request.POST['visitor']
-        content = request.POST['content']
-        email = request.POST['email']
-        date_time = timezone.localtime(timezone.now())
 
-        if any(not request.POST[k] for k in request.POST):
-            errors.append('* 有空白欄位，請不要留空')
-        if '@' not in email:
-            errors.append('* email 格式不正確')
-        if not errors:
+        f = CommentForm(request.POST)
+        if f.is_valid():
+            visitor = f.cleaned_data['visitor']
+            content = f.cleaned_data['content']
+            email = f.cleaned_data['email']
+            date_time = datetime.datetime.now()
             Comment.objects.create(
                 visitor=visitor,
                 email=email,
@@ -68,7 +66,31 @@ def comment(request, id):
                 date_time=date_time,
                 restaurant=r
             )
-            visitor, email, content = ('', '', '')
+            f = CommentForm(initial={'content':'no comment'})
 
-    f = CommentForm()
+    else:
+        f = CommentForm()
+
+        # visitor = request.POST['visitor']
+        # content = request.POST['content']
+        # email = request.POST['email']
+        # date_time = timezone.localtime(timezone.now())
+        #
+        # if any(not request.POST[k] for k in request.POST):
+        #     errors.append('* 有空白欄位，請不要留空')
+        # if '@' not in email:
+        #     errors.append('* email 格式不正確')
+        # if not errors:
+        #     Comment.objects.create(
+        #         visitor=visitor,
+        #         email=email,
+        #         content=content,
+        #         date_time=date_time,
+        #         restaurant=r
+        #     )
+        #     visitor, email, content = ('', '', '')
+    #
+    # f = CommentForm()
+
+
     return render_to_response('comments.html', RequestContext(request, locals()))

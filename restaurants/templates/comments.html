@@ -11,6 +11,15 @@
     <style>
         th { text-align: center; }
 
+        table {
+            margin-left:auto;
+            margin-right:auto;
+        }
+
+        .comment_input {
+                text-align: center;
+        }
+
         div.menus {
             text-align: center;
             padding: 40px 15px;
@@ -46,12 +55,15 @@
 
     <br /><br />
 
-    {% for e in errors %}
-        <p style="color:red;">{{ e }}</p>
-    {% endfor %}
+    {% if f.errors %}
+        <p style="color:red;">請依提示修復表單錯誤</p>
+    {% endif %}
+    </div>
 
     <form action="" method="post"> {% csrf_token %}
         <table>
+            <div class="comment_input">
+
             {{ f.as_table }}
 <!--
             <div class="form-group">
@@ -77,8 +89,11 @@
                 </td>
             </tr>
 -->
+            </div>
         </table>
+        <div class="comment_input">
         <input type="submit" value="給予評價">
+        </div>
     </form>
 
 
@@ -105,7 +120,6 @@
     </div>
  -->
 
-</div>
 </div>
 </body>
 </html>
