@@ -9,7 +9,9 @@
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
 
     <style>
-        th { text-align: center; }
+        .table th {
+            text-align: center;
+            }
 
         table {
             margin-left:auto;
@@ -18,6 +20,10 @@
 
         .comment_input {
                 text-align: center;
+        }
+
+        .errorlist {
+            color:red;
         }
 
         div.menus {
@@ -64,32 +70,28 @@
         <table>
             <div class="comment_input">
 
-            {{ f.as_table }}
-<!--
-            <div class="form-group">
-            <tr>
-                <td> <label for="visitor">留言者:</label></td>
-                <td> <input id="visitor" type="text" name="visitor" class="form-control"
-                      value="{{visitor}}"> </td>
-            </tr>
-            </div>
-
-            <div class="form-group">
-            <tr>
-                <td> <label for="email">電子信箱:</label></td>
-                <td> <input id="email" type="text" name="email" class="form-control"
-                        value="{{email}}"></td>
-            </tr>
-            </div>
+ <!--           {{ f.as_table }}
+ -->
 
             <tr>
-                <td> <label for="content">評價:</label></td>
-                <td>
-                    <textarea id="content" rows="10" cols="48" name="content">{{content}}</textarea>
-                </td>
+                <th> <label for="id_visitor">留言者:</label></th>
+                <td> {{ f.visitor }} </td>
+                <td> {{ f.visitor.errors }}</td>
             </tr>
--->
-            </div>
+
+            <tr>
+                <th> <label for="id_email">電子信箱:</label></th>
+                <td> {{ f.email }}</td>
+                <td> {{ f.email.errors }}</td>
+            </tr>
+
+            <tr>
+                <th> <label for="id_content">評論:</label></th>
+                <td> {{ f.content }}</td>
+                <td> {{ f.content.errors }}</td>
+
+            </tr>
+
         </table>
         <div class="comment_input">
         <input type="submit" value="給予評價">
