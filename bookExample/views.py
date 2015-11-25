@@ -1,6 +1,12 @@
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render_to_response
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.sessions.models import Session
+from django.contrib import auth
+from django.template import RequestContext
+from bookExample.form import LoginForm
+
 
 def welcome(request):
     if 'user_name' in request.GET and request.GET['user_name'] != '':
@@ -32,3 +38,34 @@ def session_test(request):
     s_info = 'Session ID:' + sid + '<br>Expire_date:' + str(s.expire_date) + '<br>Data:' + str(s.get_decoded())
 
     return HttpResponse(s_info)
+
+def login(request):
+
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/index/')
+
+    if request.POST:
+        f = LoginForm(request.POST)
+    else:
+        f = LoginForm()
+
+    username = request.POST.get('username', '')
+    password = request.POST.get('password', '')
+
+    user = auth.authenticate(username=username, password=password)
+
+    if user is not None and user.is_active:
+        auth.login(request, user)
+        return HttpResponseRedirect('/index/')
+    else:
+        if request.POST:
+            errors_msg = '帳號密碼錯誤'
+
+        return render_to_response('login.html', RequestContext(request, locals()))
+
+def logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect('/index/')
+
+def index(request):
+    return render_to_response('index.html', RequestContext(request, locals()))
