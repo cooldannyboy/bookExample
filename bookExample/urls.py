@@ -1,7 +1,9 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from restaurants.views import menu, meta, restaurants_list, comment
-from bookExample.views import welcome, set_c, get_c, session_test, login, index, logout
+from bookExample.views import welcome, set_c, get_c, session_test, index, register
+#from bookExample.views import login, logout
+from django.contrib.auth.views import login, logout
 
 admin.autodiscover()
 
@@ -20,8 +22,9 @@ urlpatterns = patterns('',
     url(r'^cookie/', set_c),
     url(r'^get_cookie/', get_c),
     url(r'^session/', session_test),
-    url(r'^account/login/', login),
-    url(r'^account/logout/', logout),
+    url(r'^accounts/login/', login),
+    url(r'^accounts/logout/', logout),
     url(r'^index/', index),
+    url(r'^accounts/register/$', register)
 
 )

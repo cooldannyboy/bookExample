@@ -6,7 +6,7 @@ from django.contrib.sessions.models import Session
 from django.contrib import auth
 from django.template import RequestContext
 from bookExample.form import LoginForm
-
+from django.contrib.auth.forms import UserCreationForm
 
 def welcome(request):
     if 'user_name' in request.GET and request.GET['user_name'] != '':
@@ -69,3 +69,13 @@ def logout(request):
 
 def index(request):
     return render_to_response('index.html', RequestContext(request, locals()))
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            return HttpResponseRedirect('/accounts/login')
+    else:
+        form = UserCreationForm()
+    return render_to_response('register.html', RequestContext(request, locals()))
