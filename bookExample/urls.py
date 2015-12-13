@@ -1,3 +1,6 @@
+#from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+#from django.contrib import staticfiles
+
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from restaurants.views import menu, meta, restaurants_list, comment
@@ -28,3 +31,5 @@ urlpatterns = patterns('',
     url(r'^accounts/register/$', register)
 
 )
+
+#urlpatterns += staticfiles_urlpatterns()

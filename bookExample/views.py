@@ -67,7 +67,10 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect('/index/')
 
+import os
 def index(request):
+    aaa = os.path.dirname(os.path.dirname(__file__))
+    bbb = __file__
     return render_to_response('index.html', RequestContext(request, locals()))
 
 def register(request):

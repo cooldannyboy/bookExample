@@ -40,6 +40,8 @@ def meta(request):
         html.append('<tr><td>{0}</td><td>{1}</td></tr>'.format(k, v))
     return HttpResponse('<table>{0}</table>'.format('\n'.join(html)))
 
+from django.contrib.auth.decorators import login_required
+@login_required
 def restaurants_list(request):
     restaurants = Restaurant.objects.all()
     return render_to_response('restaurants_list.html', locals())
